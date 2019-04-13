@@ -31,7 +31,7 @@ while n < totalSimulations:
 
 
     n = n + 1
-    simulation.append((t, X))
+    simulation.append((t, int(X)))
 
 
 fig = plt.figure()
@@ -47,5 +47,5 @@ for i in range(len(simulation)):
 
 
 
-plt.show()
+plt.savefig("gillespie.png")
 

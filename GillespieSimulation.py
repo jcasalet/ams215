@@ -7,6 +7,9 @@ totalSimulations = 1000
 t = 0
 n = 0
 
+# maximum number of molecules
+limit = 50
+
 # r0 is decay
 r0 = 0.01
 
@@ -26,7 +29,7 @@ while n < totalSimulations:
     if rR == 0 and X > 0:
         X = X - r0 * X
 
-    else:
+    elif X < limit:
         X = X + r1 * X
 
 

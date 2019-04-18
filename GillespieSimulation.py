@@ -1,54 +1,39 @@
 import math
 import random
-import matplotlib
 import matplotlib.pyplot as plt
 
-totalSimulations = 1000
-t = 0
-n = 0
+t = 0                                # time
+n = 0                                # iteration
+X = 1                                # number of molecules
 
-# maximum number of molecules
-limit = 50
+Xmax = 50                            # maximum number of molecules
+totalSimulations = 1000              # number of iterations to run
+r0 = 0.01                            # decay rate
+r1 = 0.02                            # production rate
 
-# r0 is decay
-r0 = 0.01
+simulation = list()                  # results list
 
-# r1 is production
-r1 = 0.02
+while n < totalSimulations:          # main loop
+    rT = random.uniform(0, 1)        # generate URN
+    rR = bool(random.getrandbits(1)) # randomly select 0 or 1
+    t = t + rT                       # increment time
 
-X = 1
-
-simulation = list()
-
-
-while n < totalSimulations:
-    rT = random.uniform(0, 1)
-    rR = bool(random.getrandbits(1))
-    t = t +rT
-
-    if rR == 0 and X > 0:
+    if rR == 0 and X > 0:            # decay
         X = X - r0 * X
-
-    elif X < limit:
+    elif X < Xmax:                   # production
         X = X + r1 * X
 
+    n = n + 1                        # increment iteration counter
+    simulation.append((t, int(X)))   # insert results of this run into list
 
-    n = n + 1
-    simulation.append((t, int(X)))
+fig = plt.figure()                   # set up plot
+plt.axis([0, 1000, 0, Xmax + 10])
+plt.xlabel('time')
+plt.ylabel('X')
 
-
-fig = plt.figure()
-plt.axis([0,1000, 0, 100])
-plt.xlabel("time")
-plt.ylabel("X")
-
-
-for i in range(len(simulation)):
+for i in range(len(simulation)):     # plot data
     print(str(i), str(simulation[i][0]), str(simulation[i][1]))
-    plt.scatter(i, simulation[i][1], s=1)
-    #plt.pause(0.001)
+    plt.scatter(i, simulation[i][1],
+                s=1, c='black')
 
-
-
-plt.savefig("gillespie.png")
-
+plt.savefig("gillespie.png")         # save plot to disk
